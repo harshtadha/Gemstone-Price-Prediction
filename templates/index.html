@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemstone Price Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --accent-color: #00d2ff;
+            --text-color: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1551334787-21e6bd3ab135?q=80&w=2070&auto=format&fit=crop'); /* High-res diamond background */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .top-left-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .top-left-link:hover {
+            background: var(--accent-color);
+            color: #000;
+        }
+
+        h1 {
+            margin-top: 60px;
+            font-weight: 600;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+/* Top-Right Profile Container */
+.top-right-profile {
+  position: fixed; /* Keep it fixed in the viewport */
+  top: 20px; /* Distance from the top */
+  right: 20px; /* Distance from the right */
+  z-index: 1000; /* Ensure it stays on top of other content */
+}
+
+/* Profile Image Styling */
+.profile-image {
+  width: 70px; /* Adjusted size for the corner */
+  height: 70px; /* Adjusted size for the corner */
+  border-radius: 50%; /* Circular shape */
+  border: 3px solid #00d2ff; /* Blue border */
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.7); /* Blue glow */
+  object-fit: cover; /* Ensure image covers the area */
+}
+
+        .form-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: #e0e0e0;
+        }
+
+        input[type="text"], select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        option {
+            background: #222;
+            color: white;
+        }
+
+        input[type="submit"] {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+
+        .result-container {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .price-tag {
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+  <div class="top-right-profile">
+  <img src="{{url_for('static', filename='/Image/your_profile_pic.jpg')}}" alt="Harsh Tadha" class="profile-image">
+</div>
+    <a href="https://github.com/harshtadha/Gemstone-Price-Prediction.git" class="top-left-link" target="_blank">View GitHub</a>
+    
+    <h1>Gemstone Price Prediction</h1>
+
+    <div class="form-box">
+        <form action="{{url_for('predict_datapoint')}}" method="POST" class="form-grid">
+            <div class="form-group">
+                <label for="carat">Carat Weight</label>
+                <input type="text" id="carat" name="carat" placeholder="e.g. 1.5">
+            </div>
+        
+            <div class="form-group">
+                <label for="depth">Depth %</label>
+                <input type="text" id="depth" name="depth" placeholder="e.g. 61.5">
+            </div>
+
+            <div class="form-group">  
+                <label for="table">Table %</label>
+                <input type="text" id="table" name="table" placeholder="e.g. 55.0">
+            </div>
+            
+            <div class="form-group">
+                <label for="x">Length (x) mm</label>
+                <input type="text" id="x" name="x" placeholder="0.00">
+            </div>
+          
+            <div class="form-group">
+                <label for="y">Width (y) mm</label>
+                <input type="text" id="y" name="y" placeholder="0.00">
+            </div>
+          
+            <div class="form-group">
+                <label for="z">Depth (z) mm</label>
+                <input type="text" id="z" name="z" placeholder="0.00">
+            </div>         
+          
+            <div class="form-group">
+                <label for="cut">Cut Quality</label>
+                <select id="cut" name="cut">
+                    <option value="Fair">Fair</option>
+                    <option value="Good">Good</option>
+                    <option value="Very Good">Very Good</option>
+                    <option value="Premium">Premium</option>
+                    <option value="Ideal">Ideal</option>
+                </select>
+            </div>
+              
+            <div class="form-group">
+                <label for="color">Color Grade</label>
+                <select id="color" name="color">
+                    <option value="D">D (Best)</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    <option value="H">H</option>
+                    <option value="I">I</option>
+                    <option value="J">J (Worst)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="clarity">Clarity Grade</label>
+                <select id="clarity" name="clarity">
+                    <option value="I1">I1</option>
+                    <option value="SI2">SI2</option>
+                    <option value="SI1">SI1</option>
+                    <option value="VS2">VS2</option>
+                    <option value="VS1">VS1</option>
+                    <option value="VVS2">VVS2</option>
+                    <option value="VVS1">VVS1</option>
+                    <option value="IF">IF (Flawless)</option>
+                </select>
+            </div>
+            
+            <input type="submit" value="Calculate Estimated Price">
+        </form>
+    </div>
+
+    {% if results %}
+    <div class="result-container">      
+        <h2>Estimated Market Value:</h2>
+        <div class="price-tag">${{ results }}</div>
+    </div>
+    {% endif %}
+
+</body>
+</html>
