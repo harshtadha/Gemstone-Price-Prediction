@@ -126,7 +126,7 @@ AWS Elastic Beanstalk link : [http://gemstonepriceutkarshgaikwad-env.eba-7zp3wap
 
 # Screenshot of UI
 
-![HomepageUI](./Screenshots/HomepageUI.jpg)
+![HomepageUI](./Screenshots/HomepageUI.png)
 ![HomepageUI](./Screenshots/APIPrediction.jpg)
 
 
